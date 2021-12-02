@@ -1,15 +1,15 @@
 //CAMADA DE SERVIÇO
 package com.jameseng.dsclients.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ public class ClientService {
 	private ClientRepository repository;
 	
 	@Transactional(readOnly=true) //garante integridade na transação com o banco de dados | readOnly=true = evita looking do banco de dados.
-	public List<ClientDTO> findAll() {
+	public Page<ClientDTO> findAllPaged(PageRequest pageRequest) {
 		/*PRIMEIRA IMPLEMENTAÇÃO:
 		public List<Client> findAll()
 		return repository.findAll();*/
@@ -54,10 +54,10 @@ public class ClientService {
 		//.collect(Collectors.toList()) = transforma o stream novamente em uma lista
 		return listDTO;*/
 		
-		List<Client> list=repository.findAll();
+		Page<Client> list=repository.findAll(pageRequest);
 		//repository = objeto responsável por acessar o banco de dados.
 		
-		return list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+		return list.map(x -> new ClientDTO(x));
 	}
 
 	@Transactional(readOnly=true)
