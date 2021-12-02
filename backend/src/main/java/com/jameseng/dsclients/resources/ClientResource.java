@@ -1,12 +1,17 @@
 package com.jameseng.dsclients.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jameseng.dsclients.dto.ClientDTO;
 import com.jameseng.dsclients.services.ClientService;
@@ -19,7 +24,7 @@ public class ClientResource {
 	@Autowired //injeta automaticamente a dependendia gerenciada pelo Spring
 	private ClientService service; 
 	
-	//primeiro endpoint (primeira rota do recurso):
+	//primeiro endpoint (primeira rota do recurso - mostrar todos os clientes):
 	@GetMapping
 	public ResponseEntity<List<ClientDTO>> findAll() {
 		
@@ -31,5 +36,22 @@ public class ClientResource {
 		List<ClientDTO> list=service.findAll();
 		return ResponseEntity.ok().body(list); //.ok() = deixa reponder resposta 200 = requisição realizada com sucesso
 	}
-
+	
+	//segundo endpoint (mostrar cliente por id):
+	@GetMapping(value="/{id}") //acrescentar o id na rota
+	public ResponseEntity<ClientDTO> findById(@PathVariable Long id) {
+		//@PathVariabl = para o spring entender que deve vincular o id da rota com o id do finById
+		ClientDTO dto=service.findById(id);
+		return ResponseEntity.ok().body(dto); //.ok() = deixa reponder resposta 200 = requisição realizada com sucesso
+	}
+	
+	//Inserir no banco um novo cliente (INSERT) | @RequestBody = endpoint reconhecer objeto enviado na requisição e vincule o dto*/
+	@PostMapping //padrão REST = inserir um novo recurso = método POST
+	public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
+		dto=service.insert(dto);
+		URI uri=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(dto.getId()).toUri();
+		
+		return ResponseEntity.created(uri).body(dto); //código 201 = recurso criado
+	}
 }
