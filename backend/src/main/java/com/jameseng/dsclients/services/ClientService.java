@@ -1,12 +1,11 @@
 //CAMADA DE SERVIÇO
 package com.jameseng.dsclients.services;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jameseng.dsclients.dto.ClientDTO;
 import com.jameseng.dsclients.entities.Client;
 import com.jameseng.dsclients.repositories.ClientRepository;
-import com.jameseng.dsclients.services.exceptions.EntityNotFoundException;
+import com.jameseng.dsclients.services.exceptions.ResourceNotFoundException;
 
 @Service //registar esa classe como um componente que participa de um sistema de injeção de dependencia automatizado do Spring
 public class ClientService {
@@ -66,7 +65,7 @@ public class ClientService {
 		
 		//obter a entidade do obj
 		//Se o Client não existir, o orElseThrow vai instanciar uma exceção
-		Client entity=obj.orElseThrow(() -> new EntityNotFoundException("Entity not Found"));
+		Client entity=obj.orElseThrow(() -> new ResourceNotFoundException("Entity not Found"));
 		
 		return new ClientDTO(entity);
 	}
@@ -87,5 +86,25 @@ public class ClientService {
 		
 		//transformar em um ClientDTO e retornar
 		return new ClientDTO(entity);
+	}
+
+	@Transactional
+	public ClientDTO update(Long id, ClientDTO dto) {
+		try {
+			Client entity=repository.getOne(id);
+			entity.setName(dto.getName());
+			entity.setCpf(dto.getCpf());
+			entity.setIncome(dto.getIncome());
+			entity.setBirthDate(dto.getBirthDate());
+			entity.setChildren(dto.getChildren());
+			
+			//salvar a entidade (nela mesmo)
+			entity=repository.save(entity);
+			
+			//transformar em um ClientDTO e retornar
+			return new ClientDTO(entity);
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found "+id);
+		}
 	}
 }
