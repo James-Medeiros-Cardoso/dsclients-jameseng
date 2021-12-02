@@ -8,12 +8,15 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jameseng.dsclients.dto.ClientDTO;
 import com.jameseng.dsclients.entities.Client;
 import com.jameseng.dsclients.repositories.ClientRepository;
+import com.jameseng.dsclients.services.exceptions.DataBaseException;
 import com.jameseng.dsclients.services.exceptions.ResourceNotFoundException;
 
 @Service //registar esa classe como um componente que participa de um sistema de injeção de dependencia automatizado do Spring
@@ -105,6 +108,19 @@ public class ClientService {
 			return new ClientDTO(entity);
 		} catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found "+id);
+		}
+	}
+
+	//método DELETE = não precisa do Transactional
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id not found "+id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DataBaseException("Integrity violation.");
 		}
 	}
 }

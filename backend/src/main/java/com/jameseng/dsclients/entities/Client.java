@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +21,13 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY) //id será uma variavel autoincrementável no banco de dados.
 	private Long id;
 	private String name;
+	
+	@Column(columnDefinition="TIMESTAMP WITHOUT TIME ZONE")
+	private Instant createdAt;
+	
+	@Column(columnDefinition="TIMESTAMP WITHOUT TIME ZONE")
+	private Instant updateAt;
+	
 	private String cpf;
 	private Double income;
 	
@@ -85,6 +94,25 @@ public class Client implements Serializable {
 
 	public void setChildren(Integer children) {
 		this.children = children;
+	}
+	
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public Instant getUpdateAt() {
+		return updateAt;
+	}
+	
+	//sempre que salvar e atualizar, ele armazena os horários nas variáveis createdAt e updateAt
+	@PrePersist
+	public void prePersist() {
+		createdAt=Instant.now();
+	}
+	
+	@PreUpdate
+	public void preUpdate() {
+		updateAt=Instant.now();
 	}
 
 	@Override
