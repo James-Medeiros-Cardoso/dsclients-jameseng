@@ -84,7 +84,5 @@ public class ClientResource {
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build(); //vai dar uma resposta 204 = deu certo e o corpo da resposta será vazio
-	}	
-	
-	
+	}		
 }
