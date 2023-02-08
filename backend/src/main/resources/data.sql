@@ -8,3 +8,16 @@ INSERT INTO TB_CLIENT (NAME, CPF, INCOME, BIRTH_DATE, CHILDREN, created_At) VALU
 INSERT INTO TB_CLIENT (NAME, CPF, INCOME, BIRTH_DATE, CHILDREN, created_At) VALUES ('Cassiano Costa de Medeiros', '112.357.159-87', 1589.16, TIMESTAMP WITH TIME ZONE '1995-10-05T20:24:51Z', 2, NOW());
 INSERT INTO TB_CLIENT (NAME, CPF, INCOME, BIRTH_DATE, CHILDREN, created_At) VALUES ('Amilton Prestes Jacob', '689.854.746-33', 9854.95, TIMESTAMP WITH TIME ZONE '1993-07-10T06:22:54Z', 1, NOW());
 INSERT INTO TB_CLIENT (NAME, CPF, INCOME, BIRTH_DATE, CHILDREN, created_At) VALUES ('Jorje Miguel da Silva Santos', '253.547.854-69', 2389.22, TIMESTAMP WITH TIME ZONE '1988-06-01T13:59:31Z', 2, NOW());
+
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Alex', 'Brown', 'alex@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Maria', 'Green', 'maria@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('James', 'Medeiros Cardoso', 'james-medeiros@hotmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+
+INSERT INTO tb_role (authority) VALUES ('ROLE_CLIENT');
+INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
+INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
+
+INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 3);
