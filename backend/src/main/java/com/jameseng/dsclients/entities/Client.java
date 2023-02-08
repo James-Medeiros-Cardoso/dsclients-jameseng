@@ -1,143 +1,135 @@
 package com.jameseng.dsclients.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-
 @Entity
-@Table(name="tb_client") //nome da tabela do banco de dados = tb_client
+@Table(name = "tb_client") //nome da tabela do banco de dados = tb_client
 public class Client implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY) //id será uma variavel autoincrementável no banco de dados.
-	private Long id;
-	private String name;
-	
-	@Column(columnDefinition="TIMESTAMP WITHOUT TIME ZONE")
-	private Instant createdAt;
-	
-	@Column(columnDefinition="TIMESTAMP WITHOUT TIME ZONE")
-	private Instant updateAt;
-	
-	private String cpf;
-	private Double income;
-	
-	@Column(columnDefinition="TIMESTAMP WITHOUT TIME ZONE")
-	private Instant birthDate;
-	
-	private Integer children;
-	
-	public Client() {
-	}
+    private static final long serialVersionUID = 1L;
 
-	public Client(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.income = income;
-		this.birthDate = birthDate;
-		this.children = children;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //id será uma variavel autoincrementável no banco de dados.
+    private Long id;
+    private String name;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updateAt;
 
-	public String getName() {
-		return name;
-	}
+    private String cpf;
+    private Double income;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant birthDate;
 
-	public String getCpf() {
-		return cpf;
-	}
+    private Integer children;
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    public Client() {
+    }
 
-	public Double getIncome() {
-		return income;
-	}
+    public Client(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
+        this.income = income;
+        this.birthDate = birthDate;
+        this.children = children;
+    }
 
-	public void setIncome(Double income) {
-		this.income = income;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Instant getBirthDate() {
-		return birthDate;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setBirthDate(Instant birthDate) {
-		this.birthDate = birthDate;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getChildren() {
-		return children;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setChildren(Integer children) {
-		this.children = children;
-	}
-	
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
+    public String getCpf() {
+        return cpf;
+    }
 
-	public Instant getUpdateAt() {
-		return updateAt;
-	}
-	
-	//sempre que salvar e atualizar, ele armazena os horários nas variáveis createdAt e updateAt
-	@PrePersist
-	public void prePersist() {
-		createdAt=Instant.now();
-	}
-	
-	@PreUpdate
-	public void preUpdate() {
-		updateAt=Instant.now();
-	}
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public Double getIncome() {
+        return income;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Client other = (Client) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-	
+    public void setIncome(Double income) {
+        this.income = income;
+    }
+
+    public Instant getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Instant birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Integer getChildren() {
+        return children;
+    }
+
+    public void setChildren(Integer children) {
+        this.children = children;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdateAt() {
+        return updateAt;
+    }
+
+    //sempre que salvar e atualizar, ele armazena os horários nas variáveis createdAt e updateAt
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updateAt = Instant.now();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Client other = (Client) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
 }
