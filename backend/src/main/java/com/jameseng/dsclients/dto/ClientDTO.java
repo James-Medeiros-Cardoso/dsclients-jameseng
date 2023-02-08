@@ -4,6 +4,7 @@ import com.jameseng.dsclients.entities.Client;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
@@ -26,7 +27,7 @@ public class ClientDTO implements Serializable {
     @PastOrPresent(message = "O campo 'birthDate' não pode estar no futuro.")
     private Instant birthDate;
 
-    //@NotEmpty(message = "O campo 'children' não podem estar vazio.")
+    @NotNull(message = "O campo 'children' não podem estar vazio.")
     private Integer children;
 
     public ClientDTO() {
