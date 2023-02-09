@@ -2,6 +2,8 @@ package com.jameseng.dsclients.dto;
 
 import com.jameseng.dsclients.entities.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,8 +12,14 @@ public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "O campo 'firtName' não pode estar vazio.")
     private String firstName;
+
+    @NotBlank(message = "O campo 'lastName' não pode estar vazio.")
     private String lastName;
+
+    @Email(message = "Insira um email válido.")
     private String email;
 
     Set<RoleDTO> roles = new HashSet<>();

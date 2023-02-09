@@ -1,9 +1,11 @@
 //CAMADA DE SERVIÇO
 package com.jameseng.dsclients.services;
 
+import com.jameseng.dsclients.dto.RoleDTO;
 import com.jameseng.dsclients.dto.UserDTO;
 import com.jameseng.dsclients.dto.UserInsertDTO;
 import com.jameseng.dsclients.dto.UserUpdateDTO;
+import com.jameseng.dsclients.entities.Role;
 import com.jameseng.dsclients.entities.User;
 import com.jameseng.dsclients.repositories.UserRepository;
 import com.jameseng.dsclients.services.exceptions.DataBaseException;
@@ -73,5 +75,10 @@ public class UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
+
+        user.getRoles().clear();
+        for (RoleDTO roleDto : userDto.getRoles()) {
+            user.getRoles().add(new Role(roleDto.getId(), roleDto.getAuthority()));
+        }
     }
 }
