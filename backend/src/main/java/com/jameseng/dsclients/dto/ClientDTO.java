@@ -3,10 +3,7 @@ package com.jameseng.dsclients.dto;
 import com.jameseng.dsclients.entities.Client;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -15,6 +12,7 @@ public class ClientDTO implements Serializable {
 
     private Long id;
 
+    @Size(min = 2, max = 120, message = "O campo 'name' deve ter entre 2 e 120 caracteres.")
     @NotEmpty(message = "O campo 'name' é obrigatório.")
     private String name;
 

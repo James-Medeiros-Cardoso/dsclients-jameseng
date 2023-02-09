@@ -2,6 +2,7 @@
 package com.jameseng.dsclients.services;
 
 import com.jameseng.dsclients.dto.UserDTO;
+import com.jameseng.dsclients.dto.UserInsertDTO;
 import com.jameseng.dsclients.entities.User;
 import com.jameseng.dsclients.repositories.UserRepository;
 import com.jameseng.dsclients.services.exceptions.DataBaseException;
@@ -37,7 +38,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO insert(UserDTO userDto) {
+    public UserDTO insert(UserInsertDTO userDto) {
         User user = new User();
         copyDtoToEntity(userDto, user);
         user = userRepository.save(user);

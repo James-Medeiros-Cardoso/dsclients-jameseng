@@ -1,6 +1,7 @@
 package com.jameseng.dsclients.resources;
 
 import com.jameseng.dsclients.dto.UserDTO;
+import com.jameseng.dsclients.dto.UserInsertDTO;
 import com.jameseng.dsclients.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -34,15 +36,15 @@ public class UserResource {
 
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserDTO userDto) {
-        userDto = userService.insert(userDto);
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO userDto) {
+        UserDTO newDto = userService.insert(userDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(userDto.getId()).toUri();
-        return ResponseEntity.created(uri).body(userDto);
+        return ResponseEntity.created(uri).body(newDto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDto) {
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO userDto) {
         userDto = userService.update(id, userDto);
         return ResponseEntity.ok().body(userDto);
     }

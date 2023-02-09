@@ -14,12 +14,6 @@ public class Client implements Serializable {
     private Long id;
     private String name;
 
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant createdAt;
-
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant updateAt;
-
     private String cpf;
     private Double income;
 
@@ -27,6 +21,12 @@ public class Client implements Serializable {
     private Instant birthDate;
 
     private Integer children;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updateAt;
 
     public Client() {
     }
