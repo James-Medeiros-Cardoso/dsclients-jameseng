@@ -7,6 +7,7 @@ import com.jameseng.dsclients.dto.UserInsertDTO;
 import com.jameseng.dsclients.dto.UserUpdateDTO;
 import com.jameseng.dsclients.entities.Role;
 import com.jameseng.dsclients.entities.User;
+import com.jameseng.dsclients.repositories.RoleRepository;
 import com.jameseng.dsclients.repositories.UserRepository;
 import com.jameseng.dsclients.services.exceptions.DataBaseException;
 import com.jameseng.dsclients.services.exceptions.ResourceNotFoundException;
@@ -26,6 +27,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
@@ -78,7 +82,9 @@ public class UserService {
 
         user.getRoles().clear();
         for (RoleDTO roleDto : userDto.getRoles()) {
-            user.getRoles().add(new Role(roleDto.getId(), roleDto.getAuthority()));
+            Role role = roleRepository.findById(roleDto.getId()).orElseThrow(
+                    () -> new ResourceNotFoundException("UserService/Entity Role not Found. Id = " + roleDto.getId()));
+            user.getRoles().add(role);
         }
     }
 }
