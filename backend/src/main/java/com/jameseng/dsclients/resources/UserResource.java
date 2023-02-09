@@ -2,6 +2,7 @@ package com.jameseng.dsclients.resources;
 
 import com.jameseng.dsclients.dto.UserDTO;
 import com.jameseng.dsclients.dto.UserInsertDTO;
+import com.jameseng.dsclients.dto.UserUpdateDTO;
 import com.jameseng.dsclients.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,9 +45,9 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO userDto) {
-        userDto = userService.update(id, userDto);
-        return ResponseEntity.ok().body(userDto);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userDto) {
+        UserDTO newDto = userService.update(id, userDto);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @DeleteMapping(value = "/{id}")

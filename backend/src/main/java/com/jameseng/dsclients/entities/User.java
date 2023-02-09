@@ -18,7 +18,7 @@ public class User implements Serializable {
 
     @Column(unique = true)
     private String email;
-    
+
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER) // vem os perfis de usuário
