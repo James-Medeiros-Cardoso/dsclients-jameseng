@@ -14,15 +14,20 @@ public class ClientDTO implements Serializable {
 
     @Size(min = 2, max = 120, message = "O campo 'name' deve ter entre 2 e 120 caracteres.")
     @NotEmpty(message = "O campo 'name' é obrigatório.")
+    @NotBlank(message = "O campo 'name' não pode estar em branco.")
     private String name;
 
     @CPF(message = "O CPF digitado não é válido.")
+    @NotEmpty(message = "O campo 'cpf' é obrigatório.")
+    @NotBlank(message = "O campo 'cpf' não pode estar em branco.")
     private String cpf;
 
     @Positive(message = "O campo 'income' deve ser positivo.")
+    @NotNull(message = "O campo 'income' não pode estar em branco.")
     private Double income;
 
     @PastOrPresent(message = "O campo 'birthDate' não pode estar no futuro.")
+    @NotNull(message = "O campo 'birthDate' não pode estar em branco.")
     private Instant birthDate;
 
     @NotNull(message = "O campo 'children' não podem estar vazio.")
