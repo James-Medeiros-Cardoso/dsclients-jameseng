@@ -18,13 +18,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] PUBLIC = {"/oauth/token"};
 
-    //private static final String[] OPERATOR_OR_ADMIN = { "/products/**", "/categories/**" };
-    private static final String[] CLIENT_OR_OPERATOR_OR_ADMIN = {"/clients/**", "/users/**"};
-
     private static final String[] CLIENTS = {"/clients/**"};
 
-    private static final String[] ADMIN = {"/users/**"};
-
+    private static final String[] USERS = {"/users/**"};
 
     @Override // decodificar e analisar token
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -35,11 +31,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
-                //.antMatchers(CLIENTS).permitAll()
-                .antMatchers(HttpMethod.GET, CLIENT_OR_OPERATOR_OR_ADMIN).permitAll()
 
-                //.antMatchers(HttpMethod.POST, CLIENTS).hasRole("CLIENT");
+                .antMatchers(HttpMethod.GET, CLIENTS).permitAll()
+                .antMatchers(HttpMethod.POST, CLIENTS).permitAll()
+                .antMatchers(HttpMethod.PUT, CLIENTS).hasAnyRole("CLIENT", "OPERATOR", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, CLIENTS).hasAnyRole("CLIENT", "OPERATOR", "ADMIN")
 
-                .anyRequest().hasAnyRole("CLIENT", "OPERATOR", "ADMIN");
+                .antMatchers(HttpMethod.GET, USERS).hasAnyRole("OPERATOR", "ADMIN")
+                .antMatchers(HttpMethod.POST, USERS).hasAnyRole("OPERATOR", "ADMIN")
+
+                .antMatchers(HttpMethod.PUT, USERS).hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, USERS).hasRole("ADMIN");
     }
 }

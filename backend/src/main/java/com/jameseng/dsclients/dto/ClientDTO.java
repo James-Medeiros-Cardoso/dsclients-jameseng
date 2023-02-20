@@ -30,7 +30,7 @@ public class ClientDTO implements Serializable {
     @NotNull(message = "O campo 'birthDate' não pode estar em branco.")
     private Instant birthDate;
 
-    @NotNull(message = "O campo 'children' não podem estar vazio.")
+    @NotNull(message = "O campo 'children' não pode estar vazio.")
     private Integer children;
 
     public ClientDTO() {
