@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override // Liberar todos os endpoints
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**"); /* ou: "/actuator/**" */
+        web.ignoring().antMatchers("/actuator/**"); /* ou: "/actuator/**" */
     }
 
     @Override
