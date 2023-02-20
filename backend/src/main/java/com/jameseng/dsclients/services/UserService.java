@@ -11,11 +11,16 @@ import com.jameseng.dsclients.repositories.RoleRepository;
 import com.jameseng.dsclients.repositories.UserRepository;
 import com.jameseng.dsclients.services.exceptions.DataBaseException;
 import com.jameseng.dsclients.services.exceptions.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +28,15 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
+
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
@@ -86,5 +93,16 @@ public class UserService {
                     () -> new ResourceNotFoundException("UserService/Entity Role not Found. Id = " + roleDto.getId()));
             user.getRoles().add(role);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        if (user == null) {
+            logger.error("User not found: " + username);
+            throw new UsernameNotFoundException("UserService/Email " + username + " not found.");
+        }
+        logger.info("UserService/User was found: " + username);
+        return user;
     }
 }
